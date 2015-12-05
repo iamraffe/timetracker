@@ -1,4 +1,7 @@
 class Project < ActiveRecord::Base
+  validates :name, presence: true, length: { minimum: 6 }, uniqueness: true
+  validates :description, presence: true, length: { maximum: 140 }
+
   def self.iron_find(id)
     where(id: id).first
   end
