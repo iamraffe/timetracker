@@ -9,6 +9,8 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render 'no_projects_found'
   end
 
   def create
