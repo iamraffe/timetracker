@@ -6,4 +6,8 @@ Rails.application.routes.draw do
   # get '/projects' => 'projects#index'
 
   resources :projects
+
+  resources :projects do
+    resources :entries
+  end
 end

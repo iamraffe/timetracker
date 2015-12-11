@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  has_many :entries
   validates :name, presence: true, length: { minimum: 6 }, uniqueness: true
   validates :description, presence: true, length: { maximum: 140 }
 
@@ -16,5 +17,27 @@ class Project < ActiveRecord::Base
 
   def iron_print
     "Project: #{name} - #{description}"
+  end
+
+
+
+  def find_entries_from(month, year)
+    # entries.select do |entry|
+    #   entry.date.month == month && entry.date.year == year
+    # end
+    date = Date.new(year,month)
+    date_range = date.to_s..date.end_of_month.to_s
+    entries.where(date: date_range)
+  end
+
+  def sum_up_hours(filtered_entries)
+    filtered_entries.reduce(0) do |sum, entry|
+      entry.hours + sum + (entry.minutes/60.0)
+    end
+  end
+
+  def total_hours_in_month(month, year)
+    filtered_entries = find_entries_from(month, year)
+    sum_up_hours(filtered_entries)
   end
 end

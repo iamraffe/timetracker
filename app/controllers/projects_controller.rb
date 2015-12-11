@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
+    @hours = @project.total_hours_in_month(Time.now.month, Time.now.year)
     rescue ActiveRecord::RecordNotFound
       render 'no_projects_found'
   end
